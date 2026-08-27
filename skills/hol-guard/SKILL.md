@@ -27,24 +27,26 @@ Use HOL Guard when a user wants pre-tool security checks, approval review, audit
 
 ## Check installation
 
+Probe the actual CLIs instead of using shell-specific executable lookup commands:
+
 ```bash
-command -v hol-guard
-command -v plugin-scanner
+hol-guard --version
+plugin-scanner --version
 ```
 
-If HOL Guard is missing and the user asked to set it up:
+If HOL Guard is unavailable and the user asked to set it up:
 
 ```bash
 pipx install hol-guard
 ```
 
-If package verification is needed and `plugin-scanner` is missing:
+If package verification is needed and `plugin-scanner` is unavailable:
 
 ```bash
 pipx install plugin-scanner
 ```
 
-Then verify HOL Guard itself:
+Then inspect the current Guard state and detect the exact supported harness identifier:
 
 ```bash
 hol-guard status
@@ -53,15 +55,18 @@ hol-guard detect --json
 
 ## Protect a supported local AI harness
 
+Use the exact harness identifier returned by `hol-guard detect --json`; do not maintain or guess a separate harness list in this skill.
+
 ```bash
 hol-guard bootstrap
 hol-guard install <harness>
 hol-guard run <harness> --dry-run
 hol-guard run <harness>
+hol-guard doctor <harness> --json
 hol-guard status
 ```
 
-Supported harness names include `codex`, `claude-code`, `copilot`, `cursor`, `gemini`, `hermes`, `openclaw`, `opencode`, and `antigravity`.
+Do not claim the session is protected until Guard reports a successful harness setup. A deny, review-required state, Guard error, timeout, or unavailable runtime is not permission to launch an unprotected copy of the agent.
 
 ## Handle blocked or review-required work
 
