@@ -72,10 +72,12 @@ Do not claim the session is protected until Guard reports a successful harness s
 
 ```bash
 hol-guard approvals
-hol-guard approvals open
+hol-guard approvals open <request-id>
 hol-guard receipts
 hol-guard diff <harness>
 ```
+
+Use the pending request ID shown by `hol-guard approvals`; do not guess or reuse an unrelated request ID.
 
 Only approve a request after the user has reviewed the risk reason and requested scope.
 
